@@ -11,19 +11,24 @@ const Books = () => {
   const [paid, setPaid] = useState(false);
   const [free, setFree] = useState(false);
 
-  // Use environment variable
+  // Use environment variable for backend URL
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${backendUrl}/get-books`); // use backend URL from env
+        // Updated backend route
+        const res = await axios.get(`${backendUrl}/books/get-books`, {
+          withCredentials: true, // if you plan to use cookies/auth later
+        });
         if (res.status === 200) {
           setBooks(res.data);
+          setMessage(""); // clear any previous error
         } else {
           setMessage("Books Not Found");
         }
       } catch (error) {
+        console.error("Error fetching books:", error);
         setMessage("Error fetching books");
       }
     };
@@ -33,6 +38,7 @@ const Books = () => {
 
   const handleDropdown = () => setShowFilter(!showFilter);
 
+  // Filter books based on Free/Paid selection
   const filteredBooks = books.filter((book) => {
     if (free && paid) return true;
     if (free) return book.price === "Free";
@@ -46,6 +52,8 @@ const Books = () => {
         <h2 className="text-3xl font-bold text-primary-red mb-6 text-center">
           Browse Books
         </h2>
+
+        {/* Filter dropdown */}
         <div className="relative">
           <CiFilter
             onClick={handleDropdown}
@@ -70,6 +78,8 @@ const Books = () => {
             </div>
           )}
         </div>
+
+        {/* Books Grid */}
         {message === "" ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {filteredBooks.map((book) => (
@@ -77,7 +87,7 @@ const Books = () => {
             ))}
           </div>
         ) : (
-          <div className="text-red-500 dark:bg-slate-900  text-2xl text-center">
+          <div className="text-red-500 dark:bg-slate-900 text-2xl text-center">
             {message}
           </div>
         )}
