@@ -6,16 +6,16 @@ services:
     expose:
       - "4000"
     env_file:
-      - ./backend/.env
+      - ./server/.env
     networks:
       - app-network
 
   frontend:
-    build: ./frontend
+    build: ./client
     expose:
       - "80"
     env_file:
-      - ./frontend/.env
+      - ./client/.env
     depends_on:
       - backend
     networks:

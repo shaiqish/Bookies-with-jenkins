@@ -11,7 +11,7 @@ const usersRouter = require('./routes/users');
 const app = express();
 
 // ===== CORS (allow all origins for now) =====
-app.use(cors({ origin: 'http://localhost:5173', 
+app.use(cors({ origin: '*', 
     credentials: true }));
 
 // ===== Middlewares =====
