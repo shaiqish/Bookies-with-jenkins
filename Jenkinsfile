@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/MUGHEESULHASSAN/shaiq-bookies-deployment-using-docker-compose-and-jenkinspipeline.git'
+                git branch: 'main', url: 'https://github.com/shaiqish/Bookies-with-jenkins.git'
             }
         }
 
